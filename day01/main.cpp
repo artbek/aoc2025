@@ -1,6 +1,4 @@
 #include <iostream>
-#include <map>
-#include <vector>
 
 #define dump(x) \
 		std::cout << #x << "=" << x << "\n";
@@ -44,9 +42,6 @@ void part1()
 }
 
 
-// 2426 - too low
-// 324325 - too high
-// 5923 - correct
 void part2()
 {
 	int counter = 0;
@@ -91,5 +86,6 @@ int main()
 {
 	//part1();
 	part2();
+
 	return 0;
 }

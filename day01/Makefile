@@ -7,5 +7,4 @@ build:
 
 run:
 	cat test_input.txt | time ./solution # 3
-	cat test_input2.txt | time ./solution # 3
 	cat input.txt | time ./solution

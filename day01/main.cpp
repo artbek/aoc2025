@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 #define dump(x) \
 		std::cout << #x << "=" << x << "\n";
@@ -18,18 +19,16 @@ using ll = long long;
 const int MOD = 100;
 
 
-void part1()
+std::vector<std::pair<char,int>> input;
+
+
+int part1()
 {
 	int counter = 0;
 
 	int state = 50;
 
-	char op;
-	int num;
-
-	while (std::cin >> op) {
-		std::cin >> num;
-
+	for (auto [op, num] : input ) {
 		if (op == 'L') state -= num;
 		else state += num;
 
@@ -38,22 +37,17 @@ void part1()
 		if (state == 0) counter++;
 	}
 
-	dump(counter);
+	return counter;
 }
 
 
-void part2()
+int part2()
 {
 	int counter = 0;
 
 	int state = 50;
 
-	char op;
-	int num;
-
-	while (std::cin >> op) {
-		std::cin >> num;
-
+	for (auto [op, num] : input ) {
 		int prev_state = state;
 
 		if (op == 'L') state -= num;
@@ -78,14 +72,22 @@ void part2()
 		if (! modified && state == 0) counter++;
 	}
 
-	dump(counter);
+	return counter;
 }
 
 
 int main()
 {
-	//part1();
-	part2();
+	char op;
+	int num;
+
+	while (std::cin >> op) {
+		std::cin >> num;
+		input.emplace_back(op, num);
+	}
+
+	std::cout << "PART 1: " << part1() << "\n";
+	std::cout << "PART 2: " << part2() << "\n";
 
 	return 0;
 }

@@ -28,15 +28,11 @@ int count_valid_rolls()
 	int c_count = input.back().size();
 	int r_count = input.size();
 
-	std::vector<std::pair<int,int>> offsets;
-	offsets.emplace_back(-1,-1);
-	offsets.emplace_back(-1, 0);
-	offsets.emplace_back(-1,+1);
-	offsets.emplace_back( 0,-1);
-	offsets.emplace_back( 0,+1);
-	offsets.emplace_back(+1,-1);
-	offsets.emplace_back(+1, 0);
-	offsets.emplace_back(+1,+1);
+	std::pair<int,int> offsets[] = {
+		{-1,-1}, {-1, 0}, {-1,+1},
+		{ 0,-1},          { 0,+1},
+		{+1,-1}, {+1, 0}, {+1,+1},
+	};
 
 	for (int r = 0; r < r_count; r++) {
 		for (int c = 0; c < c_count; c++) {

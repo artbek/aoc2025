@@ -23,32 +23,55 @@
 
 using ll = long long;
 
+struct operation {
+	char op_sign;
+	int op_index;
+};
+
 std::vector<std::string> lines;
 std::vector<std::vector<int>> numbers;
-std::vector<char> ops;
+std::vector<operation> ops;
 
 
-auto get_col_numbers(int col_id)
+auto get_col_numbers(int col_id, int version)
 {
 	std::vector<int> nums;
 
-	for (auto n : numbers) {
-		nums.push_back(n[col_id]);
+	if (version == 1) {
+
+		for (auto n : numbers) nums.push_back(n[col_id]);
+
+	} else {
+
+		int line_len = lines[0].size();
+		int start_offset = ops[col_id].op_index;
+
+		for (int i = start_offset; i < line_len; i++) {
+			std::string num_str;
+			for (auto ln : lines) {
+				if (ln[i] != ' ') num_str += ln[i];
+			}
+
+			if (num_str.size() == 0) break;
+
+			nums.push_back(std::stoi(num_str));
+		}
+
 	}
 
 	return nums;
 }
 
 
-ll get_col_total(int col_id)
+ll get_col_total(int col_id, int version)
 {
 	ll col_total = 0;
-	char op = ops[col_id];
+	char op = ops[col_id].op_sign;
 
 	if (op == '+') col_total = 0;
 	else col_total = 1;
 
-	auto col_numbers = get_col_numbers(col_id);
+	auto col_numbers = get_col_numbers(col_id, version);
 
 	if (op == '+') {
 		for (auto n : col_numbers) col_total += n;
@@ -60,14 +83,14 @@ ll get_col_total(int col_id)
 }
 
 
-ll find_total_sum()
+ll find_total_sum(int version)
 {
 	ll sum = 0;
 
 	int cols_count = ops.size();
 
 	for (int c = 0; c < cols_count; c++) {
-		sum += get_col_total(c);
+		sum += get_col_total(c, version);
 	}
 
 	return sum;
@@ -97,15 +120,16 @@ int main()
 
 	// Extract the operations:
 	{
-		std::istringstream input;
-		input.str(lines[line_count - 1]);
+		std::string ops_line = lines[line_count - 1];
 
-		char op;
-		while (input >> op) ops.push_back(op);
+		int line_len = lines[0].size();
+		for (int i = 0; i < line_len; i++) {
+			if (ops_line[i] != ' ') ops.push_back({ops_line[i], i});
+		}
 	}
 
-	std::cout << "PART 1: " << find_total_sum() << "\n";
-	//std::cout << "PART 2: " << find_total_sum2() << "\n";
+	std::cout << "PART 1: " << find_total_sum(1) << "\n";
+	std::cout << "PART 2: " << find_total_sum(2) << "\n";
 
 	return 0;
 }

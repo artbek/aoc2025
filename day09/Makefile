@@ -6,6 +6,6 @@ build:
 	g++ -static -O0 -std=c++17 -Wall main.cpp -o solution
 
 run:
-	cat test_input.txt | time ./solution # 21 | 40
+	cat test_input.txt | time ./solution # 50 | 24
 	cat input.txt | time ./solution
 

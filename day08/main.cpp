@@ -76,8 +76,8 @@ ll solve(int part)
 	int connected_pairs = 0;
 
 	for (auto [d,box] : distances) {
-		junction_box & b1 = boxes[box.first];
-		junction_box & b2 = boxes[box.second];
+		auto & b1 = boxes[box.first];
+		auto & b2 = boxes[box.second];
 
 		if (b1.circuit_id == 0 && b2.circuit_id == 0) { // create new circuit
 			b1.circuit_id = next_circuit_id;

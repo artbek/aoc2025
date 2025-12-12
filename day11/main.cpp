@@ -24,23 +24,29 @@ using ll = long long;
 
 std::map<std::string, std::vector<std::string>> devices;
 
-ll paths_counter = 0;
 
+std::map<std::string, ll> ways;
 
-void find_path(std::string key)
+ll find_path(std::string src, std::string dst)
 {
-	for (auto & el : devices[key]) {
-		if (el == "out") {
-			paths_counter++;
-			break;
+	if (ways[src]) {
+		return ways[src];
+	}
+
+	ll total_paths = 0;
+
+	for (auto & el : devices[src]) {
+		if (el == dst) {
+			total_paths += 1;
 		} else {
-			find_path(el);
+			total_paths += find_path(el, dst);
 		}
 	}
 
-	return;
-}
+	ways[src] = total_paths;
 
+	return total_paths;
+}
 
 
 int main(int argc, char** argv)
@@ -57,14 +63,18 @@ int main(int argc, char** argv)
 		devices[key].push_back(s);
 	}
 
-	//for (auto [k,v] : devices) {
-	//	dump(k);
-	//	dumpv(v);
-	//}
+	auto answer = find_path("you", "out");
+	std::cout << "PART 1: " << answer << std::endl;
 
-	find_path("you");
-	std::cout << "PART 1: " << paths_counter << "\n";
-	//std::cout << "PART 2: " << solve2() << "\n";
+	ways.clear();
+	ll p1 = find_path("dac", "out");
+	ways.clear();
+	ll p2 = find_path("fft", "dac");
+	//ways.clear();
+	//ll p3 = find_path("fft", "svr");
+
+	auto answer2 = p1 * p2;// * p3;
+	std::cout << "PART 2: " << answer2 << std::endl;
 
 	return 0;
 }
